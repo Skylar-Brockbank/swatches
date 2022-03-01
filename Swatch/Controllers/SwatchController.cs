@@ -12,10 +12,28 @@ namespace Swatch.Controllers
 		public SwatchController()
 		{
 		}
-		//localhost:5000/api/swatch?color1=DDDDDD&color2=000000&steps=3
-		[HttpGet]
+		//localhost:5000/api/swatch/two?color1=DDDDDD&color2=000000&steps=3
+		[HttpGet("two")]
 		public object TwoColorSwatch(string color1, string color2, string steps)
 		{ 
+			List<Color> output = tweenColors(color1,color2,steps);
+			return JsonSerializer.Serialize(output);
+		}
+		//localhost:5000/api/swatch/four?color1=DDDDDD&color2=000000&color3=FFFFFF&color4=EEEEEE&steps=3
+		[HttpGet("four")]
+		public object FourColorSwatch(string color1, string color2, string color3, string color4, string steps)
+		{
+			int size = int.Parse(steps) + 2;
+			List<List<Color>> output = new List<List<Color>>{};
+			List<Color> leftCol = tweenColors(color1, color3, steps);
+			List<Color> rightCol = tweenColors(color2,color4,steps);
+			for(int i = 0; i<leftCol.Count; i++){
+				output.Add(tweenColors(leftCol[i].Hex,rightCol[i].Hex,steps));
+			}
+			return JsonSerializer.Serialize(output);
+		}
+
+		public static List<Color> tweenColors(string color1, string color2, string steps){
 			int stepsAsInt = int.Parse(steps) + 1;
 			Color start = new Color(color1);
 			Color end = new Color(color2);
@@ -31,7 +49,8 @@ namespace Swatch.Controllers
         output.Add(new Color(new int[] {red, green, blue}));
 			}
 			output.Add(end);
-			return JsonSerializer.Serialize(output);
+			return output;
 		}
+
 	}
 }

@@ -8,6 +8,7 @@ namespace Swatch.Models
     public int Red {get;}
     public int Green {get;}
     public int Blue {get;}
+    
     public Color(string hex)
     {
     this.Hex = hex;
@@ -37,11 +38,11 @@ namespace Swatch.Models
 
 		public static string RGBToHex(int red, int green, int blue)
 		{
-			string sred = red.ToString("X");
-			string sgreen = green.ToString("X");
-			string sblue = blue.ToString("X");
+			string sred = red.ToString("X2");
+			string sgreen = green.ToString("X2");
+			string sblue = blue.ToString("X2");
 
-			return sred + sgreen + sblue;
+			return (sred + sgreen + sblue);
 		}
   }
 }
